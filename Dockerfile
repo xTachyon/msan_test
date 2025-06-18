@@ -46,8 +46,7 @@ COPY CMakeLists.txt main.cpp .
 # RUN ${CXX} -g ${MSAN_FLAGS} main.cpp && LD_LIBRARY_PATH=llvm/build/lib ./a.out
 RUN mkdir build \
     && cd build \
-    &&  \
-    cmake .. \
+    && cmake .. \
         -D CMAKE_BUILD_TYPE=Debug \
         -D CMAKE_C_FLAGS="${MSAN_FLAGS}" \
         -D CMAKE_CXX_FLAGS="${MSAN_FLAGS}" \
