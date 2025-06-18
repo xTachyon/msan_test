@@ -40,15 +40,17 @@ RUN mkdir llvm/build \
         -D CMAKE_CXX_FLAGS="${fsanitize_flag} ${cmake_libcxx_cflags} ${fno_sanitize_flag}" \
     && ninja
 
-COPY CMakeLists.txt main.cpp .
-RUN $CXX -fsanitize=memory -stdlib=libc++ -Lllvm/build/lib -lc++abi -Illvm/build/include -Illvm/build/include/c++/v1 main.cpp && ./a.out
-# RUN mkdir build \
-#     && cd build \
-#     &&  \
-#     cmake .. \
-#         -D CMAKE_BUILD_TYPE=Debug \
-#         -D CMAKE_C_FLAGS="-fsanitize=memory -stdlib=libc++ -L../../llvm/build/lib -lc++abi -I../../llvm/build/include -I../../llvm/build/include/c++/v1" \
-#         -D CMAKE_CXX_FLAGS="-fsanitize=memory -stdlib=libc++ -L../../llvm/build/lib -lc++abi -I../../llvm/build/include -I../../llvm/build/include/c++/v1" \
-#     && ninja -v
+ENV MSAN_FLAGS="-fsanitize=memory -stdlib=libc++ -nostdinc++ -L/llvm/build/lib -lc++abi -isystem /llvm/build/include -isystem /llvm/build/include/c++/v1"
 
-# RUN build/msan_test
+COPY CMakeLists.txt main.cpp .
+# RUN ${CXX} -g ${MSAN_FLAGS} main.cpp && LD_LIBRARY_PATH=llvm/build/lib ./a.out
+RUN mkdir build \
+    && cd build \
+    &&  \
+    cmake .. \
+        -D CMAKE_BUILD_TYPE=Debug \
+        -D CMAKE_C_FLAGS="${MSAN_FLAGS}" \
+        -D CMAKE_CXX_FLAGS="${MSAN_FLAGS}" \
+    && ninja -v
+
+RUN LD_LIBRARY_PATH=llvm/build/lib build/msan_test

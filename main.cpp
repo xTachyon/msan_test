@@ -7,3 +7,4 @@ int main() {
     s += std::to_string(x);
     printf("%s", s.c_str());
 }
+
