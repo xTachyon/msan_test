@@ -12,8 +12,8 @@ RUN mkdir llvm \
 FROM ubuntu:24.04
 
 RUN apt-get update \
-        && apt-get -y install cmake ninja-build \
-        wget lsb-release software-properties-common gnupg curl
+    && apt-get -y install cmake ninja-build \
+    wget lsb-release software-properties-common gnupg curl
 
 RUN wget https://apt.llvm.org/llvm.sh \
     && chmod +x llvm.sh \
