@@ -13,11 +13,10 @@ FROM ubuntu:24.04
 
 RUN apt-get update \
     && apt-get -y install cmake ninja-build \
-    wget lsb-release software-properties-common gnupg curl
+    curl lsb-release software-properties-common gnupg
 
-RUN wget https://apt.llvm.org/llvm.sh \
-    && chmod +x llvm.sh \
-    && ./llvm.sh 21 all
+RUN curl -O https://apt.llvm.org/llvm.sh \
+    && bash ./llvm.sh 21 all
 
 ENV llvm_use_sanitizer="Memory"
 ENV fsanitize_flag="-fsanitize=memory -fsanitize-memory-track-origins"
@@ -35,7 +34,7 @@ RUN mkdir llvm/build \
         -D CMAKE_BUILD_TYPE=Debug \
         -D LLVM_ENABLE_ASSERTIONS=ON \
         -D LLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
-        -D LIBCXX_TEST_PARAMS='long_tests=False' \
+        -D LIBCXX_TEST_PARAMS="long_tests=False" \
         -D LIBCXX_INCLUDE_BENCHMARKS=OFF \
         -D LLVM_USE_SANITIZER=${llvm_use_sanitizer} \
         -D CMAKE_C_FLAGS="${fsanitize_flag} ${cmake_libcxx_cflags} ${fno_sanitize_flag}" \
