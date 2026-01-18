@@ -31,7 +31,7 @@ RUN mkdir llvm/build \
     && cd llvm/build \
     && cmake ../runtimes \
         ${cmake_options} \
-        -D CMAKE_BUILD_TYPE=Debug \
+        -D CMAKE_BUILD_TYPE=Release \
         -D LLVM_ENABLE_ASSERTIONS=ON \
         -D LLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
         -D LIBCXX_TEST_PARAMS="long_tests=False" \
