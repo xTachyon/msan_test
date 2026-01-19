@@ -55,5 +55,5 @@ ENV MSAN_FLAGS="-fsanitize=memory -stdlib=libc++ -nostdinc++ -L /llvm/build/lib 
 
 # RUN LD_LIBRARY_PATH=llvm/build/lib build/msan_test
 
-# WORKDIR /out
-# CMD cp -r /llvm .
+WORKDIR /out
+CMD cp -r /llvm .
