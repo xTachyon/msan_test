@@ -44,5 +44,7 @@ RUN mkdir llvm/build \
 
 RUN cd llvm/build && cmake -DCMAKE_INSTALL_PREFIX=/llvm/install -P cmake_install.cmake
 
+# -----------------------------------------------------------------------------
+
 FROM scratch
 COPY --from=build_libcxx /llvm/install /llvm
